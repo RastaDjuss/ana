@@ -1,3 +1,4 @@
+/// Allows the use of `Result<_, Box<dyn std::error::Error>>` in the `ana` module, which can help simplify error handling.
 #![allow(clippy::result_large_err)]
 
 use anchor_lang::prelude::*;
@@ -8,6 +9,18 @@ declare_id!("coUnmi3oBUtwtd9fjeAvSsJssXh5A5xyPbhpewyzRVF");
 pub mod ana {
     use super::*;
 
+    pub fn create_post(ctx: Context<CreatePost>, content: String) -> Result<()> {
+      let post = &mut ctx.accounts.post;
+      let author = &ctx.accounts.author;
+      
+      post.author = *author.key;
+      post.content = content;
+      post.water_likes = 0;
+      post.timestamp = Clock::get()?.unix_timestamp;
+      post.evaporation_rate = 1;
+
+      Ok(())
+    }
   pub fn close(_ctx: Context<CloseAna>) -> Result<()> {
     Ok(())
   }
@@ -33,6 +46,18 @@ pub mod ana {
 }
 
 #[derive(Accounts)]
+pub struct CreatePost<'info> {
+  #[account(mut)]
+  pub author: Signer<'info>,
+  #[account(
+      init,
+      payer = author,
+      space = Post::SIZE
+  )]
+  pub post: Account<'info, Post>,
+  pub system_program: Program<'info, System>,
+}
+
 pub struct InitializeAna<'info> {
   #[account(mut)]
   pub payer: Signer<'info>,
@@ -44,6 +69,13 @@ pub struct InitializeAna<'info> {
   )]
   pub ana: Account<'info, Ana>,
   pub system_program: Program<'info, System>,
+  pub struct Post {
+    pub author: Pubkey,
+    pub content: String,
+    pub water_likes: u64,
+    pub timestamp: i64,
+    pub evaporation_rate: u64,
+}
 }
 #[derive(Accounts)]
 pub struct CloseAna<'info> {

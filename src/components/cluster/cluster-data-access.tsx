@@ -1,9 +1,9 @@
 'use client'
 
+import React, { createContext, ReactNode, useContext } from 'react'
 import { clusterApiUrl, Connection } from '@solana/web3.js'
 import { atom, useAtomValue, useSetAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
-import { createContext, ReactNode, useContext } from 'react'
 import toast from 'react-hot-toast'
 
 export interface Cluster {
@@ -20,9 +20,6 @@ export enum ClusterNetwork {
   Custom = 'custom',
 }
 
-// By default, we don't configure the mainnet-beta cluster
-// The endpoint provided by clusterApiUrl('mainnet-beta') does not allow access from the browser due to CORS restrictions
-// To use the mainnet-beta cluster, provide a custom endpoint
 export const defaultClusters: Cluster[] = [
   {
     name: 'devnet',
@@ -51,7 +48,6 @@ const activeClustersAtom = atom<Cluster[]>((get) => {
 
 const activeClusterAtom = atom<Cluster>((get) => {
   const clusters = get(activeClustersAtom)
-
   return clusters.find((item) => item.active) || clusters[0]
 })
 
