@@ -1,0 +1,10 @@
+/home/anarchsun/Dev/ana/anchor/programs/anahead/target/sbf-solana-solana/release/deps/libsolana_instruction-9caaadea00bc96d0.rmeta: /home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/lib.rs /home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/account_meta.rs /home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/error.rs /home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/syscalls.rs
+
+/home/anarchsun/Dev/ana/anchor/programs/anahead/target/sbf-solana-solana/release/deps/libsolana_instruction-9caaadea00bc96d0.rlib: /home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/lib.rs /home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/account_meta.rs /home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/error.rs /home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/syscalls.rs
+
+/home/anarchsun/Dev/ana/anchor/programs/anahead/target/sbf-solana-solana/release/deps/solana_instruction-9caaadea00bc96d0.d: /home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/lib.rs /home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/account_meta.rs /home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/error.rs /home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/syscalls.rs
+
+/home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/lib.rs:
+/home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/account_meta.rs:
+/home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/error.rs:
+/home/anarchsun/.cargo/registry/src/index.crates.io-6f17d22bba15001f/solana-instruction-2.1.8/src/syscalls.rs:

@@ -1,10 +1,19 @@
 FROM node:lts-alpine
-ENV NODE_ENV=production
+
+# Install pnpm
+RUN npm install -g pnpm
+
 WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN pnpm install --production --silent && mv node_modules ../
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN pnpm install --production
+
+# Copy app source
 COPY . .
+
 EXPOSE 3000
-RUN chown -R node /usr/src/app
-USER node
-CMD ["pnpm", "dev"]
+
+CMD ["pnpm", "start"]

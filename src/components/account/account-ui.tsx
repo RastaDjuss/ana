@@ -1,41 +1,41 @@
-'use client'
+import React, { useState } from 'react';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { PublicKey } from '@solana/web3.js';
+import ModalAirdrop from './ModalAirdrop'; // Ensure to create these modal components
+import ModalReceive from './ModalReceive';
+import ModalSend from './ModalSend';
+import { useCluster } from '../cluster/cluster-data-access';
 
-import React from 'react'
-import { useWallet } from '@solana/wallet-adapter-react'
-import { PublicKey } from '@solana/web3.js'
-import { useCluster } from '../cluster/cluster-data-access'
-import { useGetBalance, useRequestAirdrop } from './account-data-access'
-
-export function AccountChecker() {
-  const { publicKey } = useWallet()
-  if (!publicKey) {
-    return null
-  }
-  return <AccountBalanceCheck address={publicKey} />
-}
-
-function AccountBalanceCheck({ address }: { address: PublicKey }) {
-  const { cluster } = useCluster()
-  const mutation = useRequestAirdrop({ address })
-  const query = useGetBalance({ address })
-
-  if (query.isLoading) {
-    return null
-  }
-  if (query.isError || !query.data) {
-    return (
-      <div className="alert alert-warning text-warning-content/80 rounded-none flex justify-center">
-        <span>
-          You are connected to <strong>{cluster.name}</strong> but your account is not found on this cluster.
-        </span>
+export function AccountButtons({ address }: { address: PublicKey }) {
+  const wallet = useWallet();
+  const { cluster } = useCluster();
+  const [showAirdropModal, setShowAirdropModal] = useState(false);
+  const [showReceiveModal, setShowReceiveModal] = useState(false);
+  const [showSendModal, setShowSendModal] = useState(false);
+return (
+    <div>
+      <ModalAirdrop hide={() => setShowAirdropModal(false)} address={address} show={showAirdropModal} />
+      <ModalReceive address={address} show={showReceiveModal} hide={() => setShowReceiveModal(false)} />
+      <ModalSend address={address} show={showSendModal} hide={() => setShowSendModal(false)} />
+      <div className="space-x-2">
         <button
-          className="btn btn-xs btn-neutral"
-          onClick={() => mutation.mutateAsync(1).catch((err) => console.log(err))}
+          disabled={cluster.network?.includes('mainnet')}
+          className="btn btn-xs lg:btn-md btn-outline"
+          onClick={() => setShowAirdropModal(true)}
         >
-          Request Airdrop
+          Airdrop
+        </button>
+        <button
+          disabled={wallet.publicKey?.toString() !== address.toString()}
+          className="btn btn-xs lg:btn-md btn-outline"
+          onClick={() => setShowSendModal(true)}
+        >
+          Send
+        </button>
+        <button className="btn btn-xs lg:btn-md btn-outline" onClick={() => setShowReceiveModal(true)}>
+          Receive
         </button>
       </div>
-    )
-  }
-  return null
+    </div>
+  );
 }

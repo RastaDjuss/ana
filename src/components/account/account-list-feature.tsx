@@ -1,16 +1,19 @@
 'use client'
 
 import { useWallet } from '@solana/wallet-adapter-react'
-
-import { redirect } from 'next/navigation'
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { WalletButton } from '../solana/solana-provider'
 
 export default function AccountListFeature() {
   const { publicKey } = useWallet()
+  const router = useRouter()
 
-  if (publicKey) {
-    return redirect(`/account/${publicKey.toString()}`)
-  }
+  useEffect(() => {
+    if (publicKey) {
+      router.push(`/account/${publicKey.toString()}`)
+    }
+  }, [publicKey, router])
 
   return (
     <div className="hero py-[64px]">

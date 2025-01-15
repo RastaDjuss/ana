@@ -1,9 +1,8 @@
 'use client'
-
-import React, { ReactNode, useState } from 'react'
 import { useConnection } from '@solana/wallet-adapter-react'
 import { IconTrash } from '@tabler/icons-react'
 import { useQuery } from '@tanstack/react-query'
+import { ReactNode, useState } from 'react'
 import { AppModal } from '../ui/ui-layout'
 import { ClusterNetwork, useCluster } from './cluster-data-access'
 import { Connection } from '@solana/web3.js'
@@ -100,19 +99,14 @@ export function ClusterUiModal({ hideModal, show }: { hideModal: () => void; sho
     >
       <input
         type="text"
-        placeholder="Name"
         className="input input-bordered w-full"
         value={name}
         onChange={(e) => setName(e.target.value)}
+        placeholder="Enter cluster name"
       />
-      <input
-        type="text"
-        placeholder="Endpoint"
-        className="input input-bordered w-full"
-        value={endpoint}
-        onChange={(e) => setEndpoint(e.target.value)}
-      />
+      <label htmlFor="network-select" className="sr-only">Select Network</label>
       <select
+        id="network-select"
         className="select select-bordered w-full"
         value={network}
         onChange={(e) => setNetwork(e.target.value as ClusterNetwork)}
@@ -157,6 +151,7 @@ export function ClusterUiTable() {
               </td>
               <td className="space-x-2 whitespace-nowrap text-center">
                 <button
+                  title="Delete cluster"
                   disabled={item?.active}
                   className="btn btn-xs btn-default btn-outline"
                   onClick={() => {
