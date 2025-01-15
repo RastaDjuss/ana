@@ -1,43 +1,25 @@
 'use client'
-
-import React, { ReactNode, useCallback, useMemo } from 'react'
-import dynamic from 'next/dynamic'
-import { AnchorProvider } from '@coral-xyz/anchor'
-import { WalletError } from '@solana/wallet-adapter-base'
-import {
-  AnchorWallet,
-  useConnection,
-  useWallet,
-  ConnectionProvider,
-  WalletProvider,
-} from '@solana/wallet-adapter-react'
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base'
+import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react'
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui'
-import { useCluster } from '../cluster/cluster-data-access'
-import '@solana/wallet-adapter-react-ui/styles.css'
+import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets'
+import { clusterApiUrl } from '@solana/web3.js'
+import { useMemo } from 'react'
+require('@solana/wallet-adapter-react-ui/styles.css')
 
-export const WalletButton = dynamic(async () => (await import('@solana/wallet-adapter-react-ui')).WalletMultiButton, {
-  ssr: false,
-})
-
-export function SolanaProvider({ children }: { children: ReactNode }) {
-  const { cluster } = useCluster()
-  const endpoint = useMemo(() => cluster.endpoint, [cluster])
-  const onError = useCallback((error: WalletError) => {
-    console.error(error)
-  }, [])
+export function SolanaProvider({ children }: { children: React.ReactNode }) {
+  const network = WalletAdapterNetwork.Devnet
+  const endpoint = useMemo(() => clusterApiUrl(network), [network])
+  const wallets = useMemo(
+    () => [new PhantomWalletAdapter(), new SolflareWalletAdapter()],
+    []
+  )
 
   return (
     <ConnectionProvider endpoint={endpoint}>
-      <WalletProvider wallets={[]} onError={onError} autoConnect={true}>
+      <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>{children}</WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
   )
-}
-
-export function useAnchorProvider() {
-  const { connection } = useConnection()
-  const wallet = useWallet()
-
-  return new AnchorProvider(connection, wallet as AnchorWallet, { commitment: 'confirmed' })
 }

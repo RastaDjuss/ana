@@ -1,24 +1,23 @@
-import * as anchor from '@coral-xyz/anchor'
-import { Program } from '@coral-xyz/anchor'
+import { Program, Idl, BN } from '@coral-xyz/anchor'
 import { PublicKey } from '@solana/web3.js'
 
-export namespace Post {
-  export interface Account {
-    author: PublicKey
-    timestamp: anchor.BN
-    content: string
-  }
-
-  export interface Program extends anchor.Program {
-    account: {
-      post: anchor.AccountClient<Account>
-    }
-    methods: {
-      createPost(content: string): anchor.Methods<anchor.IdlTypes>
-      updatePost(content: string): anchor.Methods<anchor.IdlTypes>
-      deletePost(): anchor.Methods<anchor.IdlTypes>
-    }
-  }
+export interface PostState {
+  author: PublicKey
+  timestamp: BN
+  content: string
 }
 
-export const POST_SEED = 'post'
+export interface PostInstructions {
+  createPost: (content: string) => Promise<string>
+  updatePost: (content: string) => Promise<string>
+  deletePost: () => Promise<string>
+}
+
+export type PostProgram = Program<Idl> & {
+  account: {
+    post: {
+      fetch: (address: PublicKey) => Promise<PostState>
+    }
+  }
+  methods: PostInstructions
+}
